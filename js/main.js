@@ -11,3 +11,7 @@ function checkDevice() {
 // Asignar eventos después de definir la función
 window.onload = checkDevice;
 window.onresize = checkDevice;
+
+function goToMenuPage(){
+    location.href = 'etheria/../menuPrincipal/'
+}
