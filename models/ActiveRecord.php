@@ -64,10 +64,23 @@ class ActiveRecord {
     // Identificar y unir los atributos de la BD
     public function atributos() {
         $atributos = [];
-        foreach(static::$columnasDB as $columna) {
-            if($columna === 'id') continue;
-            $atributos[$columna] = $this->$columna;
+    
+        foreach (static::$columnasDB as $columna) {
+            if ($columna === 'id') continue; // Saltar la columna 'id'
+    
+            // Generar el nombre del método dinámicamente
+            $metodo = 'get' . ucfirst($columna);
+    
+            // Verificar si el método existe en la clase actual
+            if (method_exists($this, $metodo)) {
+                // Llamar al método dinámicamente
+                $atributos[$columna] = $this->$metodo();
+            } else {
+                // Si no hay método, asignar el valor del atributo directamente (opcional)
+                $atributos[$columna] = $this->$columna ?? null;
+            }
         }
+    
         return $atributos;
     }
 
@@ -93,7 +106,7 @@ class ActiveRecord {
     // Registros - CRUD
     public function guardar() {
         $resultado = '';
-        if(!is_null($this->id)) {
+        if(!is_null($this->getId())) {
             // actualizar
             $resultado = $this->actualizar();
         } else {
@@ -112,21 +125,21 @@ class ActiveRecord {
 
     // Busca un registro por su id
     public static function find($id) {
-        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = ${id}";
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = $id";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
 
     // Obtener Registros con cierta cantidad
     public static function get($limite) {
-        $query = "SELECT * FROM " . static::$tabla . " LIMIT ${limite} ORDER BY id DESC" ;
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT $limite ORDER BY id DESC" ;
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
 
     // Busqueda Where con Columna 
     public static function where($columna, $valor) {
-        $query = "SELECT * FROM " . static::$tabla . " WHERE ${columna} = '${valor}'";
+        $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor'";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
@@ -139,7 +152,7 @@ class ActiveRecord {
         // Insertar en la base de datos
         $query = " INSERT INTO " . static::$tabla . " ( ";
         $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES (' "; 
+        $query .= " ) VALUES ('"; 
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
 

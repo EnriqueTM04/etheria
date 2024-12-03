@@ -3,10 +3,33 @@
 namespace Controllers;
 
 use Classes\Email;
+use Model\Competidor;
 use Model\Usuario;
 use MVC\Router;
 
 class AuthController {
+
+    public static function index(Router $router) {
+        $variable = 14;
+
+        $competidor = new Competidor();
+
+        $competidor->setNombre('Juan');
+
+        $competidor->setDatos('hdhd');
+
+        $competidor->guardar();
+
+
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $variable = 15;
+        }
+        $router->render('auth/login', [
+            'variable' => $variable,
+        ]);
+    }
+
     public static function login(Router $router) {
 
         $alertas = [];
@@ -18,6 +41,7 @@ class AuthController {
         
         // Render a la vista 
         $router->render('auth/login', [
+            'alertas' => $alertas
         ]);
     }
 
