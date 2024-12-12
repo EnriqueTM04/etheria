@@ -31,6 +31,14 @@ class ActiveRecord {
         }
     }    
 
+    public function __get($name) {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            return "La propiedad '$name' no existe.";
+        }
+    }
+
     // Validación que se hereda en modelos
     public function validar() {
         static::$alertas = [];
