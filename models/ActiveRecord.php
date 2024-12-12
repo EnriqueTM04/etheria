@@ -25,6 +25,12 @@ class ActiveRecord {
         return static::$alertas;
     }
 
+    public function __set($name, $value) {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
+    }    
+
     // Validación que se hereda en modelos
     public function validar() {
         static::$alertas = [];
