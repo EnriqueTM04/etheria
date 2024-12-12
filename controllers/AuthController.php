@@ -16,8 +16,6 @@ class AuthController {
 
         $competidor->setNombre('Juan');
 
-        $competidor->setDatos('hdhd');
-
         $competidor->guardar();
 
 
