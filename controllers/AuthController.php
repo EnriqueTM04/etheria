@@ -5,6 +5,9 @@ namespace Controllers;
 use Classes\Email;
 use Model\Competidor;
 use Model\Usuario;
+use Model\Reconocimiento;
+use Model\Reporte;
+
 use MVC\Router;
 
 class AuthController {
@@ -47,6 +50,14 @@ class AuthController {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
        
+    }
+
+    public static function reconocimiento(Router $router){
+        $reconocimiento=new Reconocimiento();
+        $reconocimientos= Reconocimiento::all();
+        $router->render('auth/reconocimiento', [
+            'reconocimientos' => $reconocimientos,
+        ]);
     }
 
 }
