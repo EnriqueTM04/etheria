@@ -6,13 +6,13 @@ class Reconocimiento extends ActiveRecord {
     protected static $tabla = 'Reconocimiento'; 
     protected static $columnasDB = ['id', 'datosCompetidor', 'lugar', 'meritos', 'descripcion', 'competidor', 'evento'];
 
-    private $id;
-    private $datosCompetidor;
-    private $lugar;
-    private $meritos;
-    private $descripcion;
-    private $competidor;
-    private $evento;
+    public $id;
+    public $datosCompetidor;
+    public $lugar;
+    public $meritos;
+    public $descripcion;
+    public $competidor;
+    public $evento;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
