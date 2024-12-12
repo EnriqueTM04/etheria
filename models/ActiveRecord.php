@@ -25,6 +25,20 @@ class ActiveRecord {
         return static::$alertas;
     }
 
+    public function __set($name, $value) {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
+    }    
+
+    public function __get($name) {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            return "La propiedad '$name' no existe.";
+        }
+    }
+
     // Validación que se hereda en modelos
     public function validar() {
         static::$alertas = [];
@@ -64,23 +78,10 @@ class ActiveRecord {
     // Identificar y unir los atributos de la BD
     public function atributos() {
         $atributos = [];
-    
-        foreach (static::$columnasDB as $columna) {
-            if ($columna === 'id') continue; // Saltar la columna 'id'
-    
-            // Generar el nombre del método dinámicamente
-            $metodo = 'get' . ucfirst($columna);
-    
-            // Verificar si el método existe en la clase actual
-            if (method_exists($this, $metodo)) {
-                // Llamar al método dinámicamente
-                $atributos[$columna] = $this->$metodo();
-            } else {
-                // Si no hay método, asignar el valor del atributo directamente (opcional)
-                $atributos[$columna] = $this->$columna ?? null;
-            }
+        foreach(static::$columnasDB as $columna) {
+            if($columna === 'id') continue;
+            $atributos[$columna] = $this->$columna;
         }
-    
         return $atributos;
     }
 
@@ -89,6 +90,8 @@ class ActiveRecord {
         $atributos = $this->atributos();
         $sanitizado = [];
         foreach($atributos as $key => $value ) {
+            // self es igual a $this pero para métodos estáticos
+            // escape_string sirve para evitar inyecciones SQL
             $sanitizado[$key] = self::$db->escape_string($value);
         }
         return $sanitizado;
@@ -106,7 +109,7 @@ class ActiveRecord {
     // Registros - CRUD
     public function guardar() {
         $resultado = '';
-        if(!is_null($this->getId())) {
+        if(!is_null($this->id)) {
             // actualizar
             $resultado = $this->actualizar();
         } else {
@@ -150,10 +153,10 @@ class ActiveRecord {
         $atributos = $this->sanitizarAtributos();
 
         // Insertar en la base de datos
-        $query = " INSERT INTO " . static::$tabla . " ( ";
+        $query = "INSERT INTO " . static::$tabla . " ( ";
         $query .= join(', ', array_keys($atributos));
         $query .= " ) VALUES ('"; 
-        $query .= join("', '", array_values($atributos));
+        $query .= join("','", array_values($atributos));
         $query .= " ') ";
 
         // debuguear($query); // Descomentar si no te funciona algo
