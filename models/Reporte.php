@@ -18,6 +18,20 @@ class Reporte extends ActiveRecord {
         $this->datosCompetidores = $args['datosCompetidores'] ?? '';
     }
 
+    public function __set($name, $value) {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
+    }    
+
+    public function __get($name) {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            return "La propiedad '$name' no existe.";
+        }
+    }
+
     public function getId() {
         return $this->id;
     }
