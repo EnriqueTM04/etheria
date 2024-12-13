@@ -1,9 +1,25 @@
 
     <main>
-        <h1>Descargar Reconocimiento</h1>
-        <h1><?php echo $reconocimientos; ?></h1>
-        <button class="button">Descarga tu reconocimiento (PDF)</button>
-        <div id="reporteContainer"></div>
+
+    <h2>Reconocimientos - Primer Lugar</h2>
+    <?php if (!empty($reconocimientos)): ?>
+        <ul>
+            <?php foreach ($reconocimientos as $reconocimiento): ?>
+                <div class="previsualizacion-reconocimiento">
+                    <li>
+                    <strong>Competidor:</strong> <?= htmlspecialchars($reconocimiento->competidor ?? 'Sin nombre') ?><br>
+                    <strong>Evento:</strong> <?= htmlspecialchars($reconocimiento->evento ?? 'Sin descripción') ?>
+                    </li>
+                </div>
+                
+                <br>
+                <a href="/descargar-reconocimiento?id=<?= $reconocimiento->id ?>" class="button">Descargar Reconocimiento (PDF)</a>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No se encontraron reconocimientos para "Primer lugar".</p>
+    <?php endif; ?>
+
     </main>
 
     <!-- Optional JavaScript; choose one of the two! -->

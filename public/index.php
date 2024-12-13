@@ -18,6 +18,8 @@ $router->get('/olvide', [AuthController::class, 'olvide']);
 $router->post('/olvide', [AuthController::class, 'olvide']);
 $router->get('/reporte', [AuthController::class, 'reporte']);
 $router->get('/reconocimiento', [AuthController::class, 'reconocimiento']);
+$router->get('/descargar-reconocimiento', 'Controllers\AuthController::descargarReconocimientoPorPersona');
+
 
 
 $router->comprobarRutas();

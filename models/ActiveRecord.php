@@ -129,6 +129,7 @@ class ActiveRecord {
     // Busca un registro por su id
     public static function find($id) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE id = $id";
+        //var_dump($query);
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
@@ -143,9 +144,11 @@ class ActiveRecord {
     // Busqueda Where con Columna 
     public static function where($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor'";
-        $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        //var_dump($query);
+        $resultado = self::consultarSQL($query); // Esto ya devuelve un array de resultados
+        return $resultado; // Devuelve todos los elementos sin usar array_shift
     }
+    
 
     // crea un nuevo registro
     public function crear() {
