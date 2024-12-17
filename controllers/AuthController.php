@@ -61,6 +61,15 @@ class AuthController {
             'reconocimientos' => $reconocimientos,
         ]);
     }
+
+    public static function reporte(Router $router) {
+        $reportes = Reporte::where("tipoReporte", 'Estadistico');
+    
+        $router->render('auth/reporte', [
+            'reportes' => $reportes,
+        ]);
+    }
+
     
     public static function descargarReconocimientoPorPersona(Router $router) {
         $id = $_GET['id'] ?? null; // Obtener el ID del reconocimiento

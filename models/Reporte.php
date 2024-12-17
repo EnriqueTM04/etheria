@@ -4,17 +4,17 @@ namespace Model;
 
 class Reporte extends ActiveRecord {
     protected static $tabla = 'Reporte';
-    protected static $columnasDB = ['id', 'tipoReporte', 'importeGastos', 'datosCompetidores'];
+    protected static $columnasDB = ['id', 'tipoReporte', 'mejoresLugares', 'datosCompetidores'];
 
     private $id;
     private $tipoReporte;
-    private $importeGastos;
+    private $mejoresLugares;
     private $datosCompetidores;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
         $this->tipoReporte = $args['tipoReporte'] ?? '';
-        $this->importeGastos = $args['importeGastos'] ?? '';
+        $this->mejoresLugares = $args['mejoresLugares'] ?? '';
         $this->datosCompetidores = $args['datosCompetidores'] ?? '';
     }
 
@@ -40,8 +40,8 @@ class Reporte extends ActiveRecord {
         return $this->tipoReporte;
     }
 
-    public function getImporteGastos() {
-        return $this->importeGastos;
+    public function getMejoresLugares() {
+        return $this->mejoresLugares;
     }
 
     public function getDatosCompetidores() {
@@ -56,8 +56,8 @@ class Reporte extends ActiveRecord {
         $this->tipoReporte = $tipoReporte;
     }
 
-    public function setImporteGastos($importeGastos) {
-        $this->importeGastos = $importeGastos;
+    public function setMejoresLugares($mejoresLugares) {
+        $this->mejoresLugares = $mejoresLugares;
     }
 
     public function setDatosCompetidores($datosCompetidores) {
