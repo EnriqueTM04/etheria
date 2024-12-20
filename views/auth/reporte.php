@@ -1,22 +1,13 @@
 
     <main>
-    <?php if (!empty($reportes)): ?>
-        <ul>
-            <?php foreach ($reportes as $reporte): ?>
-                <div class="previsualizacion-reporte">
-                    <li>
-                    <strong>Competidor:</strong> <?= htmlspecialchars($reporte->competidor ?? 'Sin nombre') ?><br>
-                    <strong>Evento:</strong> <?= htmlspecialchars($reporte->evento ?? 'Sin descripción') ?>
-                    </li>
-                </div>
-                
-                <br>
-                <a href="/descargar-reporte?id=<?= $reporte->id ?>" class="button">Descargar Reporte (PDF)</a>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No se encontraron reportes".</p>
-    <?php endif; ?>
+    <?php foreach ($reportes as $reporte): ?>
+    <div>
+        <p><strong>Reporte:</strong> <?= htmlspecialchars($reporte->tipoReporte) ?></p>
+        <a href="/descargar-reporte?id=<?= $reporte->id ?>" class="button">Descargar PDF</a>
+    </div>
+<?php endforeach; ?>
+
+
     </main>
 
     <!-- Optional JavaScript; choose one of the two! -->

@@ -16,7 +16,9 @@ $router->post('/logout', [AuthController::class, 'logout']);
 // Formulario de olvide mi password
 $router->get('/olvide', [AuthController::class, 'olvide']);
 $router->post('/olvide', [AuthController::class, 'olvide']);
-$router->get('/reporte', [AuthController::class, 'reporte']);
+
+$router->get('/descargar-reporte', [AuthController::class, 'descargarReporte']);
+
 $router->get('/reconocimiento', [AuthController::class, 'reconocimiento']);
 $router->get('/descargar-reconocimiento', 'Controllers\AuthController::descargarReconocimientoPorPersona');
 
