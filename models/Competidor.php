@@ -85,6 +85,31 @@ class Competidor extends ActiveRecord {
         $this->historialClinico = $historialClinico;
     }
 
+    public function validar()
+    {
+        if (!$this->nombre) {
+            self::$alertas[] = "El nombre es obligatorio.";
+        }
+
+        if (!$this->edadCompetidor) {
+            self::$alertas[] = "La edad es obligatoria.";
+        }
+
+        if (!$this->genero) {
+            self::$alertas[] = "El género es obligatorio.";
+        }
+
+        if (!$this->contacto) {
+            self::$alertas[] = "El contacto es obligatorio.";
+        }
+
+        if (!$this->historialClinico) {
+            self::$alertas[] = "El historial clínico es obligatorio.";
+        }
+
+        return self::$alertas;
+    }
+
 }
 
 ?>

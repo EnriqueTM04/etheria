@@ -4,9 +4,7 @@ namespace Controllers;
 require_once '../vendor/autoload.php';
 
 use Dompdf\Dompdf;
-use Classes\Email;
 use Model\Competidor;
-use Model\Usuario;
 use Model\Reconocimiento;
 use Model\Reporte;
 
@@ -34,15 +32,12 @@ class AuthController {
     }
 
     public static function login(Router $router) {
-
         $alertas = [];
-
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
-
-        $alertas = Usuario::getAlertas();
-        
-        // Render a la vista 
+    
+        // Renderizar la vista con las alertas
         $router->render('auth/login', [
             'alertas' => $alertas
         ]);
@@ -114,6 +109,74 @@ class AuthController {
         } else {
             echo 'ID no proporcionado.';
         }
+    }
+
+    public static function competidores(Router $router) {
+        $competidores = Competidor::all();
+    
+        $router->render('auth/competidores', [
+            'competidores' => $competidores,
+        ]);
+    }
+
+    public static function agregarCompetidor(Router $router) {
+        $competidor = new Competidor();
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $competidor->sincronizar($_POST);
+    
+            $alertas = $competidor->validar();
+    
+            if (empty($alertas)) {
+                $competidor->guardar();
+                header('Location: /evento/competidores');
+            }
+        }
+    
+        $router->render('auth/agregarCompetidor', [
+            'competidor' => $competidor,
+            'alertas' => $alertas ?? []
+        ]);
+    }
+
+    public static function editarCompetidor(Router $router) {
+        $id = $_GET['id'] ?? null;
+    
+        $competidor = Competidor::find($id);
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $competidor->sincronizar($_POST);
+    
+            $alertas = $competidor->validar();
+    
+            if (empty($alertas)) {
+                $competidor->guardar();
+                header('Location: /evento/competidores');
+            }
+        }
+    
+        $router->render('auth/editarCompetidor', [
+            'competidor' => $competidor,
+            'alertas' => $alertas ?? []
+        ]);
+    }
+
+    public static function eliminarCompetidor() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+
+            $id = filter_var($id, FILTER_VALIDATE_INT);
+    
+            if ($id) {
+                $competidor = Competidor::find($id);
+    
+                if ($competidor) {
+                    $competidor->eliminar();
+                }
+            }
+        }
+
+        header('Location: /evento/competidores');
     }
     
     
