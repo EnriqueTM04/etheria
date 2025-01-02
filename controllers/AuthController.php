@@ -57,12 +57,28 @@ class AuthController {
         ]);
     }
 
-    public static function reporte(Router $router) {
-        $reportes = Reporte::where("tipoReporte", 'Estadistico');
+
+    public static function descargarReporte($id) {
+        // Obtén el reporte desde la base de datos
+        $reporte = Reporte::find($id);
     
-        $router->render('auth/reporte', [
-            'reportes' => $reportes,
-        ]);
+        if (!$reporte) {
+            die("Reporte no encontrado.");
+        }
+    
+        // Generar el HTML para el PDF
+        ob_start();
+        include __DIR__ . '/../views/auth/reporte_pdf.php';
+        $html = ob_get_clean();
+    
+        // Crear y configurar Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait'); // Papel tamaño A4 en orientación vertical
+        $dompdf->render();
+    
+        // Descargar el PDF
+        $dompdf->stream("reporte_$id.pdf", ["Attachment" => true]);
     }
 
     
