@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/app.php';
 
 use MVC\Router;
 use Controllers\AuthController;
+use Controllers\EventoController;
 
 $router = new Router();
 
@@ -30,17 +31,17 @@ $router->get('/descargar-reporte', 'Controllers\AuthController::generarReportePD
 
 //*******************  COMPETIDORES  ************************/
 // Administrar los competidores de un Evento
-$router->get('/evento/competidores', [AuthController::class, 'competidores']);
+$router->get('/evento/competidores', [EventoController::class, 'competidores']);
 
 // Agregar Competidor
-$router->get('/competidor/agregar', [AuthController::class, 'agregarCompetidor']);
-$router->post('/competidor/agregar', [AuthController::class, 'agregarCompetidor']);
+$router->get('/competidor/agregar', [EventoController::class, 'agregarCompetidor']);
+$router->post('/competidor/agregar', [EventoController::class, 'agregarCompetidor']);
 
 // Editar Competidor
-$router->get('/competidor/editar', [AuthController::class, 'editarCompetidor']);
-$router->post('/competidor/editar', [AuthController::class, 'editarCompetidor']);
+$router->get('/competidor/editar', [EventoController::class, 'editarCompetidor']);
+$router->post('/competidor/editar', [EventoController::class, 'editarCompetidor']);
 
 // Eliminar Competidor
-$router->post('/competidor/eliminar', [AuthController::class, 'eliminarCompetidor']);
+$router->post('/competidor/eliminar', [EventoController::class, 'eliminarCompetidor']);
 
 $router->comprobarRutas();
