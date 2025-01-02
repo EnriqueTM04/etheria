@@ -4,7 +4,9 @@ namespace Controllers;
 require_once '../vendor/autoload.php';
 
 use Dompdf\Dompdf;
+use Classes\Email;
 use Model\Competidor;
+use Model\Usuario;
 use Model\Reconocimiento;
 use Model\Reporte;
 
@@ -32,12 +34,15 @@ class AuthController {
     }
 
     public static function login(Router $router) {
+
         $alertas = [];
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
-    
-        // Renderizar la vista con las alertas
+
+        $alertas = Usuario::getAlertas();
+        
+        // Render a la vista 
         $router->render('auth/login', [
             'alertas' => $alertas
         ]);
@@ -58,28 +63,37 @@ class AuthController {
     }
 
 
-    public static function descargarReporte($id) {
-        // Obtén el reporte desde la base de datos
+    public static function mostrarReportes() {
+        $reportes = Reporte::where("mejoresLugares", 'Primer lugar');
+        include_once __DIR__ . '/../views/auth/reportes.php'; // Vista de la lista de reportes
+    }
+    
+    public static function generarReportePDF() {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+    
+        if (!$id) {
+            die("ID no válido.");
+        }
+    
         $reporte = Reporte::find($id);
     
         if (!$reporte) {
             die("Reporte no encontrado.");
         }
     
-        // Generar el HTML para el PDF
-        ob_start();
-        include __DIR__ . '/../views/auth/reporte_pdf.php';
-        $html = ob_get_clean();
-    
-        // Crear y configurar Dompdf
+        // Configuración del PDF
         $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait'); // Papel tamaño A4 en orientación vertical
-        $dompdf->render();
+        $html = "<h1>Reporte</h1>";
+        $html .= "<p><strong>Tipo de Reporte:</strong> {$reporte->tipoReporte}</p>";
+        $html .= "<p><strong>Mejores Lugares:</strong> {$reporte->mejoresLugares}</p>";
+        $html .= "<p><strong>Datos Competidores:</strong> {$reporte->datosCompetidores}</p>";
     
-        // Descargar el PDF
-        $dompdf->stream("reporte_$id.pdf", ["Attachment" => true]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("Reporte_{$reporte->id}.pdf", ['Attachment' => true]);
     }
+    
 
     
     public static function descargarReconocimientoPorPersona(Router $router) {
@@ -109,6 +123,5 @@ class AuthController {
         } else {
             echo 'ID no proporcionado.';
         }
-    }    
-    
+    }
 }
