@@ -65,7 +65,7 @@ class AuthController {
 
     public static function mostrarReportes() {
         $reportes = Reporte::where("mejoresLugares", 'Primer lugar');
-        include_once __DIR__ . '/../views/auth/reportes.php'; // Vista de la lista de reportes
+        include_once __DIR__ . '/../views/auth/Reporte.php'; // Vista de la lista de reportes
     }
     
     public static function generarReportePDF() {
