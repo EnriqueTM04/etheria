@@ -8,6 +8,7 @@
             <th>Edad</th>
             <th>Genero</th>
             <th>Acciones</th>
+            <th>Ver Historial</th>
           </tr>
         </thead>
         <tbody>
@@ -23,6 +24,9 @@
                   <input type="hidden" name="id" value="<?php echo $competidor->id; ?>"></input>
                   <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                 </form>
+                </td>
+                <td>
+                  <a href="/competidor/historial?id=<?php echo $competidor->id; ?>" class="btn btn-primary btn-sm">Ver Historial</a>
                 </td>
             </tr>
           <?php endforeach; ?>

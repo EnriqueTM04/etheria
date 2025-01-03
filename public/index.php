@@ -35,7 +35,7 @@ $router->post('/subir-reporte', [AuthController::class, 'procesarFormularioRepor
 
 //*******************  COMPETIDORES  ************************/
 // Administrar los competidores de un Evento
-$router->get('/evento/competidores', [EventoController::class, 'competidores']);
+$router->get('/competidores', [EventoController::class, 'competidores']);
 
 // Agregar Competidor
 $router->get('/competidor/agregar', [EventoController::class, 'agregarCompetidor']);
@@ -47,5 +47,14 @@ $router->post('/competidor/editar', [EventoController::class, 'editarCompetidor'
 
 // Eliminar Competidor
 $router->post('/competidor/eliminar', [EventoController::class, 'eliminarCompetidor']);
+
+// Ver Historial de Competidor
+$router->get('/competidor/historial', [EventoController::class, 'competidorHistorial']);
+
+
+//*******************  SESIONES ************************/
+// Registrar Distancia y Tiempo
+$router->get('/competidor/registro-datos', [EventoController::class, 'registroDatosCompetidor']);
+$router->post('/competidor/registro-datos', [EventoController::class, 'registroDatosCompetidor']);
 
 $router->comprobarRutas();

@@ -25,7 +25,7 @@ class EventoController {
     
             if (empty($alertas)) {
                 $competidor->guardar();
-                header('Location: /evento/competidores');
+                header('Location: /competidores');
             }
         }
     
@@ -47,7 +47,7 @@ class EventoController {
     
             if (empty($alertas)) {
                 $competidor->guardar();
-                header('Location: /evento/competidores');
+                header('Location: /competidores');
             }
         }
     
@@ -72,7 +72,15 @@ class EventoController {
             }
         }
 
-        header('Location: /evento/competidores');
+        header('Location: /competidores');
+    }
+
+    public static function competidorHistorial(Router $router) {
+        $router->render('auth/competidorHistorial');
+    }
+
+    public static function registroDatosCompetidor(Router $router) {
+        $router->render('auth/registroDatosCompetidor');
     }
 
 }
