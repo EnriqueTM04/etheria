@@ -382,3 +382,32 @@ button:hover {
     border-color: #e0c400;
   }
 
+/* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1; /* El contenido ocupa todo el espacio disponible */
+    padding: 20px;
+}
+
+.footer {
+    background-color: #333;
+    color: #FFD700;
+    text-align: center;
+    justify-content: center;
+    padding: 10px 20px;
+}
