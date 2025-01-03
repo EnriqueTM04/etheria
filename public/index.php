@@ -18,10 +18,15 @@ $router->post('/logout', [AuthController::class, 'logout']);
 $router->get('/olvide', [AuthController::class, 'olvide']);
 $router->post('/olvide', [AuthController::class, 'olvide']);
 
-$router->get('/descargar-reporte', [AuthController::class, 'descargarReporte']);
 
+//*********************RECONOCIMIENTO*****************************/
 $router->get('/reconocimiento', [AuthController::class, 'reconocimiento']);
 $router->get('/descargar-reconocimiento', 'Controllers\AuthController::descargarReconocimientoPorPersona');
+//*********************REPORTE***********************************/
+$router->get('/reportes', [AuthController::class, 'mostrarReportes']);
+$router->get('/descargar-reporte', 'Controllers\AuthController::generarReportePDF');
+
+
 
 
 //*******************  COMPETIDORES  ************************/
