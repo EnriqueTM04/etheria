@@ -1,23 +1,20 @@
 <main>
     <h1>Reportes</h1>
-    <button id="mostrar-botones">Generar reportes</button>
-
-    <div id="reportes-lista" style="display: none;">
-        <?php if (!empty($reportes)): ?>
+    <h2>Generar Reportes</h2>
+    <?php if (!empty($reportes)): ?>
+        <ul>
             <?php foreach ($reportes as $reporte): ?>
-                <div>
+                <li>
+                    <br><br>
                     <p><strong>Tipo de Reporte:</strong> <?= htmlspecialchars($reporte->tipoReporte) ?></p>
-                    <a href="/descargar-reporte?id=<?= $reporte->id ?>" class="button">Generar PDF</a>
-                </div>
+                    <p><strong>Posicion:</strong> <?= htmlspecialchars($reporte->mejoresLugares) ?></p>
+                    <p><strong>Datos Competidor:</strong> <?= htmlspecialchars($reporte->datosCompetidores) ?></p>
+                    <a class="button" href="/generar-reporte?id=<?= $reporte->id ?>">Generar PDF</a>
+                </li>
             <?php endforeach; ?>
-        <?php else: ?>
-            <p>No se encontraron reportes con "primer lugar", "segundo lugar" o "tercer lugar".</p>
-        <?php endif; ?>
-    </div>
+        </ul>
+    <?php else: ?>
+        <p>No se encontraron reportes para los criterios especificados.</p>
+    <?php endif; ?>
 </main>
 
-<script>
-    document.getElementById('mostrar-botones').addEventListener('click', function() {
-        document.getElementById('reportes-lista').style.display = 'block';
-    });
-</script>

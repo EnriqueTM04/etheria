@@ -23,8 +23,12 @@ $router->post('/olvide', [AuthController::class, 'olvide']);
 $router->get('/reconocimiento', [AuthController::class, 'reconocimiento']);
 $router->get('/descargar-reconocimiento', 'Controllers\AuthController::descargarReconocimientoPorPersona');
 //*********************REPORTE***********************************/
-$router->get('/reportes', [AuthController::class, 'mostrarReportes']);
+$router->get('/reportes', [AuthController::class, 'reportes']);
 $router->get('/descargar-reporte', 'Controllers\AuthController::generarReportePDF');
+$router->get('/generar-reporte', [AuthController::class, 'generarReportePDF']);
+
+$router->get('/mostrar-reporte', [AuthController::class, 'mostrarReporte']);
+$router->post('/subir-reporte', [AuthController::class, 'procesarFormularioReporte']);
 
 
 

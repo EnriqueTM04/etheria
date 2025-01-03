@@ -1,3 +1,3 @@
 <footer>
-    <p>&copy; 2021 - Todos os direitos reservados</p>
-</footer>
+        &copy; 2024 Club de Leones. Todos los derechos reservados.
+    </footer>

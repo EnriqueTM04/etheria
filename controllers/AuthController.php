@@ -63,10 +63,19 @@ class AuthController {
     }
 
 
-    public static function mostrarReportes() {
-        $reportes = Reporte::where("mejoresLugares", 'Primer lugar');
-        include_once __DIR__ . '/../views/auth/Reporte.php'; // Vista de la lista de reportes
+    public static function reportes(Router $router) {
+        $primerLugar = Reporte::where('mejoresLugares', 'Primer lugar');
+        $segundoLugar = Reporte::where('mejoresLugares', 'Segundo lugar');
+        $tercerLugar = Reporte::where('mejoresLugares', 'Tercer lugar');
+    
+        // Combinar todos los reportes en un solo arreglo
+        $reportes = array_merge($primerLugar, $segundoLugar, $tercerLugar);
+    
+        $router->render('auth/reporte', [
+            'reportes' => $reportes,
+        ]);
     }
+    
     
     public static function generarReportePDF() {
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
@@ -93,8 +102,70 @@ class AuthController {
         $dompdf->render();
         $dompdf->stream("Reporte_{$reporte->id}.pdf", ['Attachment' => true]);
     }
+    public static function mostrarReporte($router) {
+        $router->render('auth/subirReporte', [
+            
+        ]);
+    }
     
-
+    public static function procesarFormularioReporte() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $tipoReporte = htmlspecialchars($_POST['tipoReporte'] ?? '');
+            $mejoresLugares = htmlspecialchars($_POST['mejoresLugares'] ?? '');
+            
+            // Combinar información de los competidores
+            $datosCompetidores = "Información General del Competidor\n";
+            $datosCompetidores .= "Nombre Completo: " . htmlspecialchars($_POST['nombreCompleto'] ?? '') . "\n";
+            $datosCompetidores .= "Instructor: " . htmlspecialchars($_POST['instructor'] ?? '') . "\n";
+            $datosCompetidores .= "Edad: " . htmlspecialchars($_POST['edad'] ?? '') . " años\n";
+            $datosCompetidores .= "Género: " . htmlspecialchars($_POST['genero'] ?? '') . "\n";
+            $datosCompetidores .= "Categoría: " . htmlspecialchars($_POST['categoria'] ?? '') . "\n";
+            $datosCompetidores .= "Distancia recorrida: " . htmlspecialchars($_POST['distanciaRecorrida'] ?? 'No aplica') . "\n";
+            $datosCompetidores .= "Vueltas: " . htmlspecialchars($_POST['vueltas'] ?? '0') . "\n";
+            $datosCompetidores .= "Descripcion de vueltas:\n" . htmlspecialchars($_POST['descripcionVueltas'] ?? '') . "\n";
+            $datosCompetidores .= "Club: " . htmlspecialchars($_POST['club'] ?? '');
+    
+            // Guardar el reporte
+            if ($tipoReporte && $mejoresLugares && $datosCompetidores) {
+                $reporte = new Reporte();
+                $reporte->tipoReporte = $tipoReporte;
+                $reporte->mejoresLugares = $mejoresLugares;
+                $reporte->datosCompetidores = $datosCompetidores;
+    
+                $resultado = $reporte->guardar();
+    
+                if ($resultado) {
+                    // Generar reconocimientos para "primer lugar"
+                    if (strtolower($mejoresLugares) === 'primer lugar') {
+                        $competidores = explode("\n", $datosCompetidores);
+                        foreach ($competidores as $linea) {
+                            if (preg_match('/Nombre Completo:\s*(.+)/', $linea, $matches)) {
+                                $nombre = trim($matches[1]);
+    
+                                $reconocimiento = new Reconocimiento([
+                                    'competidor' => $nombre,
+                                    'descripcion' => 'Reconocimiento por obtener el Primer Lugar',
+                                    'evento' => $mejoresLugares,
+                                    'meritos' => 'Primer Lugar',
+                                ]);
+    
+                                $reconocimiento->guardar();
+                            }
+                        }
+                    }
+                    
+                    header('Location: /reportes');
+                    exit;
+                } else {
+                    echo "Hubo un error al guardar el reporte.";
+                }
+            } else {
+                echo "Todos los campos son obligatorios.";
+            }
+        }
+    }
+    
+    
     
     public static function descargarReconocimientoPorPersona(Router $router) {
         $id = $_GET['id'] ?? null; // Obtener el ID del reconocimiento
