@@ -344,4 +344,41 @@ button:hover {
     font-size: 18px;
 }
 
-/*******************************/
+/*******************************   Historial Competidor ****************************************/
+
+.card {
+    background-color: #111; /* Fondo oscuro */
+    color: #FFD700; /* Texto amarillo */
+    border: 1px solid #FFD700; /* Borde amarillo */
+  }
+  .card-header {
+    background-color: #FFD700;
+    color: #000; /* Texto negro */
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  .card-body {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+.info-group {
+    margin-bottom: 0.8rem;
+  }
+  .info-label {
+    font-weight: bold;
+    color: #FFD700;
+  }
+  .info-value {
+    color: #FFF; /* Texto blanco para contraste */
+  }
+  .btn-primary {
+    background-color: #FFD700;
+    border-color: #FFD700;
+    color: #000;
+  }
+  .btn-primary:hover {
+    background-color: #e0c400;
+    border-color: #e0c400;
+  }
+
