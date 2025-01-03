@@ -1,5 +1,6 @@
 <main>
     <h1>Subir Reporte</h1>
+    <div class="form-reporte">
     <form action="/subir-reporte" method="POST">
         <!-- Campo para el tipo de reporte -->
         <div>
@@ -9,11 +10,12 @@
 
         <!-- Campo para los mejores lugares -->
         <div>
-            <label for="mejoresLugares">Mejores Lugares:</label>
+            <label for="mejoresLugares">Posicion:</label>
             <select id="mejoresLugares" name="mejoresLugares" required>
                 <option value="primer lugar">Primer Lugar</option>
                 <option value="segundo lugar">Segundo Lugar</option>
                 <option value="tercer lugar">Tercer Lugar</option>
+                <option value="otro">Otra</option>
             </select>
         </div>
 
@@ -60,6 +62,8 @@
         </div>
 
         <!-- Botón para enviar el formulario -->
-        <button type="submit" class="button">Subir Reporte</button>
+        <button type="submit" class="button boton-form-reporte">Subir Reporte</button>
     </form>
+    </div>
+    
 </main>

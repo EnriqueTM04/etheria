@@ -382,7 +382,7 @@ button:hover {
     border-color: #e0c400;
   }
 
-/* styles.css */
+/*******************************footer**************************************/
 * {
     margin: 0;
     padding: 0;
@@ -403,11 +403,38 @@ body {
     flex: 1; /* El contenido ocupa todo el espacio disponible */
     padding: 20px;
 }
-
 .footer {
     background-color: #333;
     color: #FFD700;
     text-align: center;
     justify-content: center;
     padding: 10px 20px;
+}
+/***************************Formulario reporte**************************************/
+
+input,textarea,select{
+    background-color: #333;
+    color:white;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width:20rem;
+}
+textarea{
+    height: 3rem;
+    width: 20rem;
+}
+label{
+    margin-right: 5px; /* Espacio después del label */
+    width: 10rem;
+}
+.form-reporte form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+.boton-form-reporte{
+    width: 10rem;
+    margin: 0 auto;
 }
