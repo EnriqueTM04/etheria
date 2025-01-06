@@ -17,7 +17,7 @@
                     </li>
                 </ul>
                 <span class="navbar-text ms-auto">
-                    Bienvenido, Alex
+                    Bienvenido usuario
                 </span>
             </div>
         </div>
