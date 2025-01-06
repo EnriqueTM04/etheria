@@ -76,7 +76,19 @@ class EventoController {
     }
 
     public static function competidorHistorial(Router $router) {
-        $router->render('auth/competidorHistorial');
+
+        $id = $_GET['id'] ?? null;
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+
+        $competidor = Competidor::find($id);
+
+        if (!$competidor) {
+            header('Location: /competidores');
+        }
+
+        $router->render('auth/competidorHistorial', [
+            'competidor' => $competidor
+        ]);
     }
 
     public static function registroDatosCompetidor(Router $router) {

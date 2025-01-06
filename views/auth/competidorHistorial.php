@@ -8,28 +8,24 @@
       </div>
       <div class="card-body">
         <div class="info-group">
-          <span class="info-label">ID:</span>
-          <span class="info-value">1</span>
-        </div>
-        <div class="info-group">
           <span class="info-label">Nombre:</span>
-          <span class="info-value">Juan Pérez</span>
+          <span class="info-value"><?php echo $competidor->nombre; ?></span>
         </div>
         <div class="info-group">
           <span class="info-label">Edad:</span>
-          <span class="info-value">25 años</span>
+          <span class="info-value"><?php echo $competidor->edadCompetidor; ?></span>
         </div>
         <div class="info-group">
           <span class="info-label">Género:</span>
-          <span class="info-value">Masculino</span>
+          <span class="info-value"><?php echo $competidor->genero; ?></span>
         </div>
         <div class="info-group">
           <span class="info-label">Contacto:</span>
-          <span class="info-value">juan.perez@example.com</span>
+          <span class="info-value"><?php echo $competidor->contacto; ?></span>
         </div>
         <div class="info-group">
           <span class="info-label">Historial Clínico:</span>
-          <span class="info-value">Sin condiciones médicas relevantes.</span>
+          <span class="info-value"><?php echo $competidor->historialClinico ?? 'No hay informacion para mostrar'; ?></span>
         </div>
       </div>
     </div>
