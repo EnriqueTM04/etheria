@@ -95,6 +95,12 @@ class EventoController {
         $router->render('auth/registroDatosCompetidor');
     }
 
+
+    // Eventos
+    public static function eventos(Router $router) {
+        $router->render('auth');
+    }
+
 }
 
 ?>

@@ -59,4 +59,10 @@ $router->get('/competidor/historial', [EventoController::class, 'competidorHisto
 $router->get('/competidor/registro-datos', [EventoController::class, 'registroDatosCompetidor']);
 $router->post('/competidor/registro-datos', [EventoController::class, 'registroDatosCompetidor']);
 
+
+
+//*******************  EVENTOS  ************************/
+// Administrar los eventos
+$router->get('/eventos', [EventoController::class, 'eventos']);
+
 $router->comprobarRutas();
