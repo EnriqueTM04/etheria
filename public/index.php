@@ -33,8 +33,6 @@ $router->get('/mostrar-reporte', [AuthController::class, 'mostrarReporte']);
 $router->post('/subir-reporte', [AuthController::class, 'procesarFormularioReporte']);
 
 
-
-
 //*******************  COMPETIDORES  ************************/
 // Administrar los competidores de un Evento
 $router->get('/competidores', [EventoController::class, 'competidores']);

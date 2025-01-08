@@ -11,7 +11,7 @@ class EventoController {
         $competidores = Competidor::all();
     
         $router->render('auth/competidores', [
-            'competidores' => $competidores,
+            'competidores' => $competidores
         ]);
     }
 
@@ -20,7 +20,7 @@ class EventoController {
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $competidor->sincronizar($_POST);
-    
+            
             $alertas = $competidor->validar();
     
             if (empty($alertas)) {
