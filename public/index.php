@@ -14,10 +14,9 @@ $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'login']);
 $router->get('/logout', [AuthController::class, 'logout']);
 
-
-
-
-
+// *******************  REGISTRO  ************************/
+$router->get('/registro', [AuthController::class,'registro']);
+$router->post('/registro/registrar', [AuthController::class,'registrar']);
 
 // ************* MENU PRINCIPAL ***********************/
 $router->get('/menu', [AuthController::class, 'menuPrincipal']);

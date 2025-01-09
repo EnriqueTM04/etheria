@@ -36,6 +36,77 @@ class AuthController
         ]);
     }
 
+    public static function registro(Router $router)
+{
+    $instructor = new Instructor(); // Instancia del modelo
+    $alertas = [];
+    $exito = false;
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Asignar datos del formulario al modelo
+        $instructor->nombre = $_POST['nombre'] ?? '';
+        $instructor->correo = $_POST['correo'] ?? '';
+        $instructor->rol = $_POST['rol'] ?? '';
+        $instructor->idEvento = $_POST['idEvento'] ?? null; // Si no es obligatorio, puede ser null
+        $pass = $_POST['pass'] ?? '';
+        $confirm_pass = $_POST['confirm_pass'] ?? '';
+
+        // Validar los campos requeridos
+        if (empty($instructor->nombre)) {
+            $alertas[] = 'El nombre es obligatorio.';
+        }
+
+        if (empty($instructor->correo) || !filter_var($instructor->correo, FILTER_VALIDATE_EMAIL)) {
+            $alertas[] = 'El correo es obligatorio y debe ser válido.';
+        }
+
+        if (empty($instructor->rol) || !in_array($instructor->rol, ['Instructor', 'Instructor con privilegios', 'Organizador'])) {
+            $alertas[] = 'Debes seleccionar un rol válido.';
+        }
+
+        if (empty($pass) || strlen($pass) < 6) {
+            $alertas[] = 'La contraseña es obligatoria y debe tener al menos 6 caracteres.';
+        }
+
+        if ($pass !== $confirm_pass) {
+            $alertas[] = 'Las contraseñas no coinciden.';
+        }
+
+        // Verificar si el correo ya está registrado
+        $query = "SELECT * FROM Instructor WHERE correo = '{$instructor->correo}' LIMIT 1";
+        $usuarios_existentes = Instructor::consultarSQL($query);
+
+        if (!empty($usuarios_existentes)) {
+            $alertas[] = 'El correo ya está registrado.';
+        }
+
+        // Si no hay errores, guardar en la base de datos
+        if (empty($alertas)) {
+            // Encriptar la contraseña
+            $instructor->pass = password_hash($pass, PASSWORD_BCRYPT);
+
+            // Guardar el instructor en la base de datos
+            $resultado = $instructor->guardar();
+
+            if ($resultado) {
+                $exito = true;
+                $alertas[] = 'Registro exitoso. Ahora puedes iniciar sesión.';
+            } else {
+                $alertas[] = 'Hubo un error al registrar el usuario. Inténtalo más tarde.';
+            }
+        }
+    }
+
+    // Renderizar la vista con alertas
+    $router->render('auth/registro', [
+        'alertas' => $alertas,
+        'exito' => $exito
+    ]);
+}
+
+
+    
+
     public static function login(Router $router)
     {
         $instructor = new Instructor();
