@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once __DIR__ . '/../includes/app.php';
 
@@ -12,7 +12,12 @@ $router = new Router();
 $router->get('/', [AuthController::class, 'index']);
 $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'login']);
-$router->post('/logout', [AuthController::class, 'logout']);
+$router->get('/logout', [AuthController::class, 'logout']);
+
+
+
+
+
 
 // ************* MENU PRINCIPAL ***********************/
 $router->get('/menu', [AuthController::class, 'menuPrincipal']);
