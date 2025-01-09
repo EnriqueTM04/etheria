@@ -2,6 +2,7 @@
 
 namespace Model;
 
+
 class Sesion extends ActiveRecord {
     protected static $tabla = 'Sesion';
     protected static $columnasDB = ['id', 'fecha', 'hora', 'descripcion', 'metrosRecorridos', 'idEvento'];
@@ -83,6 +84,48 @@ class Sesion extends ActiveRecord {
     public function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
+
+    public function getEvento() {
+        return Evento::find($this->idEvento);
+    }
+
+
+    public function validar() {
+        if (!$this->fecha) {
+            self::$alertas['fecha'] = 'Debes añadir una fecha.';
+        }
+
+        if (!$this->hora) {
+            self::$alertas['hora'] = 'Debes añadir una hora.';
+        }
+
+        if (!$this->descripcion) {
+            self::$alertas['descripcion'] = 'Debes añadir una descripción.';
+        }
+
+        if (!$this->metrosRecorridos) {
+            self::$alertas['metrosRecorridos'] = 'Debes añadir los metros recorridos.';
+        }
+
+        if (!$this->idEvento) {
+            self::$alertas['idEvento'] = 'Debes añadir un evento.';
+        }
+        
+
+        return self::$alertas;
+    }
+
+    public function guardar() {
+        if (!is_null($this->id)) {
+            // actualizar
+            return $this->actualizar();
+        } else {
+            // crear
+            return $this->crear();
+        }
+    }
+
+
 }
 
 ?>

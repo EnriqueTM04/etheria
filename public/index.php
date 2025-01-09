@@ -66,4 +66,34 @@ $router->post('/competidor/registro-datos', [EventoController::class, 'registroD
 // Administrar los eventos
 $router->get('/eventos', [EventoController::class, 'eventos']);
 
+// Agregar Evento
+$router->get('/evento/agregar', [EventoController::class, 'agregarEvento']);
+$router->post('/evento/agregar', [EventoController::class, 'agregarEvento']);
+
+// Editar Evento
+$router->get('/evento/editar', [EventoController::class, 'editarEvento']);
+$router->post('/evento/editar', [EventoController::class, 'editarEvento']);
+
+// Eliminar Evento
+$router->post('/evento/eliminar', [EventoController::class, 'eliminarEvento']);
+
+
+//***************** SESIONES **************************/
+
+//Administrar las sesiones
+$router->get('/sesiones', [EventoController::class, 'sesiones']);
+
+// Agregar Sesion
+$router->get('/sesion/agregar', [EventoController::class, 'agregarSesion']);
+$router->post('/sesion/agregar', [EventoController::class, 'agregarSesion']);
+
+// Editar Sesion
+$router->get('/sesion/editar', [EventoController::class, 'editarSesion']);
+$router->post('/sesion/editar', [EventoController::class, 'editarSesion']);
+
+// Eliminar Sesion
+$router->post('/sesion/eliminar', [EventoController::class, 'eliminarSesion']);
+
+
+
 $router->comprobarRutas();

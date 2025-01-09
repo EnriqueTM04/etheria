@@ -54,6 +54,8 @@ class EventoCompetidor extends ActiveRecord {
         $this->idCompetidor = $idCompetidor;
     }
 
+    
+
 }
 
 ?>
