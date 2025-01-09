@@ -38,17 +38,17 @@ class AuthController {
         $instructor = new Instructor();
         $alertas = [];
         $usuario = null;
-        
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $correo = $_POST['correo'] ?? '';
             $pass = $_POST['pass'] ?? '';
-        
+    
             if (!$correo || !$pass) {
                 $alertas[] = 'Correo y contraseña son obligatorios.';
             } else {
                 // Depuración: Verificar la consulta SQL y el resultado
                 $query = "SELECT * FROM Instructor WHERE correo = '$correo' LIMIT 1";  
-                $usuarios = instructor::consultarSQL($query);
+                $usuarios = Instructor::consultarSQL($query);
                 
                 var_dump($usuarios); // Mostrar lo que devuelve la consulta
                 
@@ -61,7 +61,8 @@ class AuthController {
                         session_start();
                         $_SESSION['usuario_id'] = $usuario->id;
                         $_SESSION['usuario_nombre'] = $usuario->nombre;
-                
+                        $_SESSION['usuario_rol'] = $usuario->rol; // Asegúrate de tener el campo `rol` en la base de datos
+                        
                         header('Location: /menu');
                         exit;
                     } else {
@@ -82,11 +83,19 @@ class AuthController {
     
     
     
+    
     public static function menuPrincipal(Router $router) {
-        // Aquí va la lógica para cargar la vista
-        $router->render('auth/menu',datos: [
+        session_start();
+        
+        // Obtener el rol del usuario desde la sesión
+        $rolActual = $_SESSION['usuario_rol'] ?? 'Invitado';
+    
+        // Renderizar la vista y pasar datos
+        $router->render('auth/menu', [
             'titulo' => 'Menú Principal',
-            'subtitulo' => 'Bienvenido al Menú Principal',]);
+            'subtitulo' => 'Bienvenido al Menú Principal',
+            'rolActual' => $rolActual
+        ]);
     }
     
 
