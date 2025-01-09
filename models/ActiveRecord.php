@@ -200,4 +200,8 @@ class ActiveRecord {
         $resultado = self::$db->query($query);
         return $resultado;
     }
+    public static function findByCorreo($correo) {
+        $usuarios = self::where('correo', $correo); // Devuelve un array de usuarios
+        return array_shift($usuarios); // Devuelve solo el primer usuario
+    }
 }

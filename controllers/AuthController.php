@@ -6,6 +6,7 @@ require_once '../vendor/autoload.php';
 use Dompdf\Dompdf;
 use Classes\Email;
 use Model\Competidor;
+use Model\Instructor;
 use Model\Usuario;
 use Model\Reconocimiento;
 use Model\Reporte;
@@ -34,19 +35,60 @@ class AuthController {
     }
 
     public static function login(Router $router) {
-
+        $instructor = new Instructor();
         $alertas = [];
-
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        }
-
-        $alertas = Usuario::getAlertas();
+        $usuario = null;
         
-        // Render a la vista 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $correo = $_POST['correo'] ?? '';
+            $pass = $_POST['pass'] ?? '';
+        
+            if (!$correo || !$pass) {
+                $alertas[] = 'Correo y contraseña son obligatorios.';
+            } else {
+                // Depuración: Verificar la consulta SQL y el resultado
+                $query = "SELECT * FROM Instructor WHERE correo = '$correo' LIMIT 1";  
+                $usuarios = instructor::consultarSQL($query);
+                
+                var_dump($usuarios); // Mostrar lo que devuelve la consulta
+                
+                if (count($usuarios) > 0) {
+                    $usuario = $usuarios[0];
+                    
+                    var_dump($usuario); // Verifica los datos del usuario
+                    
+                    if ($pass === $usuario->pass) {
+                        session_start();
+                        $_SESSION['usuario_id'] = $usuario->id;
+                        $_SESSION['usuario_nombre'] = $usuario->nombre;
+                
+                        header('Location: /menu');
+                        exit;
+                    } else {
+                        $alertas[] = 'Contraseña incorrecta.';
+                    }
+                } else {
+                    $alertas[] = 'El correo no está registrado.';
+                }
+            }
+        }
+    
         $router->render('auth/login', [
             'alertas' => $alertas
         ]);
     }
+    
+    
+    
+    
+    
+    public static function menuPrincipal(Router $router) {
+        // Aquí va la lógica para cargar la vista
+        $router->render('auth/menu',datos: [
+            'titulo' => 'Menú Principal',
+            'subtitulo' => 'Bienvenido al Menú Principal',]);
+    }
+    
 
     public static function logout() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {

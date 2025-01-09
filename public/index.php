@@ -11,8 +11,11 @@ $router = new Router();
 // *******************  LOGIN  ************************/
 $router->get('/', [AuthController::class, 'index']);
 $router->get('/login', [AuthController::class, 'login']);
-$router->post('login', [AuthController::class, 'login']);
+$router->post('/login', [AuthController::class, 'login']);
 $router->post('/logout', [AuthController::class, 'logout']);
+
+// ************* MENU PRINCIPAL ***********************/
+$router->get('/menu', [AuthController::class, 'menuPrincipal']);
 
 // Formulario de olvide mi password
 $router->get('/olvide', [AuthController::class, 'olvide']);
