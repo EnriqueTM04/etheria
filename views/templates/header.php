@@ -4,7 +4,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Acerca de Nosotros</a>
+                    <a class="nav-link" href="/acercaNosotros.php">Acerca de Nosotros</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contacto</a>

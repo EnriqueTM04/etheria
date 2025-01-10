@@ -24,7 +24,6 @@ if (session_status() == PHP_SESSION_NONE) {
             <th>Requisitos</th>
             <th>Convocatorias</th>
             <th>Acciones</th>
-            <th>Ver Detalles</th>
           </tr>
         </thead>
         <tbody>
@@ -38,16 +37,13 @@ if (session_status() == PHP_SESSION_NONE) {
                 <td><?php echo $evento->duracion ?? ''; ?></td>
                 <td><?php echo $evento->modalidad ?? ''; ?></td>
                 <td><?php echo $evento->requisitos ?? ''; ?></td>
-                <td><?php echo $evento->convocatorias ?? ''; ?></td>
+                <td><?php echo $evento->convocatoria ?? ''; ?></td>
                 <td>
                 <a href="/evento/editar?id=<?php echo $evento->id; ?>" class="btn btn-primary btn-sm">Editar</a>
                 <form action="/evento/eliminar" method="POST">
                   <input type="hidden" name="id" value="<?php echo $evento->id; ?>"></input>
                   <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                 </form>
-                </td>
-                <td>
-                  <a href="/evento/detalles?id=<?php echo $evento->id; ?>" class="btn btn-primary btn-sm">Ver Detalles</a>
                 </td>
             </tr>
           <?php endforeach; ?>

@@ -163,6 +163,30 @@ public static function login(Router $router)
         ]);
     }
 
+    public static function acercaNosotros(Router $router)
+    {
+        $router->render('auth/acercaNosotros', [
+            'titulo' => 'Acerca de Nosotros',
+            'subtitulo' => 'Conoce más sobre nosotros'
+        ]);
+    }
+
+    public static function contacto(Router $router)
+    {
+        $router->render('auth/contacto', [
+            'titulo' => 'Contacto',
+            'subtitulo' => 'Contactanos'
+        ]);
+    }
+
+    public static function soporte(Router $router)
+    {
+        $router->render('auth/soporte', [
+            'titulo' => 'Soporte',
+            'subtitulo' => 'Soporte'
+        ]);
+    }
+
 
     public static function logout()
     {

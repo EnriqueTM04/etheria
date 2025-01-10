@@ -101,5 +101,11 @@ $router->post('/sesion/editar', [EventoController::class, 'editarSesion']);
 $router->post('/sesion/eliminar', [EventoController::class, 'eliminarSesion']);
 
 
+//**************** Barra de navegacion *****************/
+
+$router->get('/acercaNosotros', [AuthController::class, 'acercaNosotros']);
+$router->get('/contacto', [AuthController::class, 'contacto']);
+$router->get('/soporte', [AuthController::class, 'soporte']);
+
 
 $router->comprobarRutas();
