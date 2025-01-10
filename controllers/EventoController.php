@@ -7,6 +7,7 @@ use MVC\Router;
 use Model\Evento;
 use Model\Sesion;
 use DateTime;
+use Model\Instructor;
 
 class EventoController {
 
@@ -190,6 +191,10 @@ class EventoController {
         $sesion = new Sesion();
         $eventos = Evento::all(); // Asumiendo que tienes un modelo Evento para obtener todos los eventos
     
+        session_start();
+    
+        $rol = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin rol';
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sesion->sincronizar($_POST);
     
@@ -201,8 +206,8 @@ class EventoController {
             $fechaInicio = new DateTime($evento->fechaInicio);
             $fechaFinalizacion = new DateTime($evento->fechaFinalizacion);
     
-            if ($fechaSesion < $fechaInicio || $fechaSesion > $fechaFinalizacion) {
-                $alertas['fechaHora'] = 'La fecha de la sesión debe estar entre ' . $evento->fechaInicio . ' y ' . $evento->fechaFinalizacion . '.';
+            if (($fechaSesion < $fechaInicio || $fechaSesion > $fechaFinalizacion) && $rol !== 'Instructor con privilegios') {
+                $alertas['fechaHora'] = 'La fecha de la sesión debe estar entre ' . $evento->fechaInicio . ' y ' . $evento->fechaFinalizacion . ', a menos que seas un Instructor con privilegios.';
             } else {
                 $resultado = $sesion->guardar();
     
