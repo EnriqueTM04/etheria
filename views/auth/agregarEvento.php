@@ -1,3 +1,14 @@
+<?php
+// filepath: /path/to/includes/config.php
+
+// Inicia la sesión si no se ha iniciado ya
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Otras configuraciones globales pueden ir aquí
+?>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Agregar Evento</h1>
     <form action="/evento/agregar" method="POST">
