@@ -25,35 +25,50 @@ $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin 
     <!-- Contenido Principal -->
     <div class="menu mt-5">
         <div class="row g-4">
-            <!-- Tarjeta 2 -->
+            <!-- Tarjeta 1 - Registrar Eventos -->
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card">
+                <div class="card custom-card shadow-lg">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Registrar Eventos</h5>
-                        <p class="card-text">Crea eventos y publica convocatorias.</p>
+                        <i class="bi bi-calendar-plus-fill display-4 text-warning"></i>
+                        <h5 class="card-title mt-3">Registrar Eventos</h5>
+                        <p class="card-text">Crea y publica convocatorias para eventos emocionantes.</p>
                         <a href="/eventos" class="btn btn-warning">Acceder</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Tarjeta 3 -->
+            <!-- Tarjeta 2 - Administrar Sesiones -->
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card">
+                <div class="card custom-card shadow-lg">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Administrar sesiones</h5>
-                        <p class="card-text">Consulta la lista de sesiones registradas.</p>
+                        <i class="bi bi-clipboard-check-fill display-4 text-primary"></i>
+                        <h5 class="card-title mt-3">Administrar Sesiones</h5>
+                        <p class="card-text">Consulta, actualiza y organiza todas las sesiones registradas.</p>
                         <a href="/sesiones" class="btn btn-warning">Acceder</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Tarjeta 3 -->
+            <!-- Tarjeta 3 - Asignar Instructores -->
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card">
+                <div class="card custom-card shadow-lg">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Asignar instructores a eventos</h5>
-                        <p class="card-text">Asigna instructores previamente registrados a eventos especificos</p>
-                        <a href="/sesiones" class="btn btn-warning">Acceder</a>
+                        <i class="bi bi-person-check-fill display-4 text-success"></i>
+                        <h5 class="card-title mt-3">Asignar Instructores</h5>
+                        <p class="card-text">Asigna instructores a eventos específicos para una mejor organización.</p>
+                        <a href="/asignar-instructores" class="btn btn-warning">Acceder</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4 - Competidores -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-card shadow-lg">
+                    <div class="card-body text-center">
+                        <i class="bi bi-trophy-fill display-4 text-danger"></i>
+                        <h5 class="card-title mt-3">Competidores</h5>
+                        <p class="card-text">Consulta la lista de competidores registrados para cada evento.</p>
+                        <a href="/competidores" class="btn btn-warning">Acceder</a>
                     </div>
                 </div>
             </div>

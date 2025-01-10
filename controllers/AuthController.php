@@ -97,16 +97,6 @@ class AuthController
     ]);
 }
 
-
-
-
-
-
-    
-
-
-    
-
 public static function login(Router $router)
 {
     $alertas = [];
