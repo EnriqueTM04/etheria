@@ -7,6 +7,8 @@ if (isset($_SESSION['usuario_id'])) {
     header('Location: /menu');
     exit;
 }
+
+
 ?>
 
 <div class="contenedorPrincipal">

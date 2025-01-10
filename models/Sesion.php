@@ -5,22 +5,20 @@ namespace Model;
 
 class Sesion extends ActiveRecord {
     protected static $tabla = 'Sesion';
-    protected static $columnasDB = ['id', 'fecha', 'hora', 'descripcion', 'metrosRecorridos', 'idEvento'];
+    protected static $columnasDB = ['id', 'descripcion', 'metrosRecorridos', 'idEvento','fechaHora'];
 
     private $id;
-    private $fecha;
-    private $hora;
     private $descripcion;
     private $metrosRecorridos;
     private $idEvento;
+    private $fechaHora;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
-        $this->fecha = $args['fecha'] ?? '';
-        $this->hora = $args['hora'] ?? '';
         $this->descripcion = $args['descripcion'] ?? '';
         $this->metrosRecorridos = $args['metrosRecorridos'] ?? '';
         $this->idEvento = $args['idEvento'] ?? '';
+        $this->fechaHora = $args['fechaHora'] ?? '';
     }
 
     public function __set($name, $value) {
@@ -41,12 +39,8 @@ class Sesion extends ActiveRecord {
         return $this->id;
     }
 
-    public function getFecha() {
-        return $this->fecha;
-    }
-
-    public function getHora() {
-        return $this->hora;
+   public function getFechaHora() {
+        return $this->fechaHora;
     }
 
     public function getDescripcion() {
@@ -61,16 +55,12 @@ class Sesion extends ActiveRecord {
         return $this->idEvento;
     }
 
+    public function setFechaHora($fechaHora) {
+        $this->fechaHora = $fechaHora;
+    }
+
     public function setId($id) {
         $this->id = $id;
-    }
-
-    public function setFecha($fecha) {
-        $this->fecha = $fecha;
-    }
-
-    public function setHora($hora) {
-        $this->hora = $hora;
     }
 
     public function setDescripcion($descripcion) {
@@ -91,12 +81,8 @@ class Sesion extends ActiveRecord {
 
 
     public function validar() {
-        if (!$this->fecha) {
-            self::$alertas['fecha'] = 'Debes añadir una fecha.';
-        }
-
-        if (!$this->hora) {
-            self::$alertas['hora'] = 'Debes añadir una hora.';
+       if(!$this->fechaHora) {
+            self::$alertas['fechaHora'] = 'Debes añadir una fecha y hora.';
         }
 
         if (!$this->descripcion) {

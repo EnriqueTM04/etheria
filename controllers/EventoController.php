@@ -6,6 +6,7 @@ use Model\Competidor;
 use MVC\Router;
 use Model\Evento;
 use Model\Sesion;
+use DateTime;
 
 class EventoController {
 
@@ -191,16 +192,31 @@ class EventoController {
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sesion->sincronizar($_POST);
-            $resultado = $sesion->guardar();
     
-            if ($resultado) {
-                header('Location: /sesiones');
+            // Obtener el evento correspondiente
+            $evento = Evento::find($sesion->idEvento);
+    
+            // Validar que la fecha de la sesión esté entre las fechas del evento
+            $fechaSesion = new DateTime($sesion->fechaHora);
+            $fechaInicio = new DateTime($evento->fechaInicio);
+            $fechaFinalizacion = new DateTime($evento->fechaFinalizacion);
+    
+            if ($fechaSesion < $fechaInicio || $fechaSesion > $fechaFinalizacion) {
+                $alertas['fechaHora'] = 'La fecha de la sesión debe estar entre ' . $evento->fechaInicio . ' y ' . $evento->fechaFinalizacion . '.';
+            } else {
+                $resultado = $sesion->guardar();
+    
+                if ($resultado) {
+                    header('Location: /sesiones');
+                    exit;
+                }
             }
         }
     
         $router->render('auth/agregarSesion', [
             'sesion' => $sesion,
-            'eventos' => $eventos // Pasar los eventos a la vista
+            'eventos' => $eventos, // Pasar los eventos a la vista
+            'alertas' => $alertas ?? []
         ]);
     }
 
