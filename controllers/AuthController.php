@@ -37,67 +37,60 @@ class AuthController
     }
 
     public static function registro(Router $router)
+    {
+        $alertas = [];
+        $exito = false;
+
+        // Renderizar la vista para mostrar el formulario
+        $router->render('auth/registro', [
+            'alertas' => $alertas,
+            'exito' => $exito
+        ]);
+    }
+
+    public static function registrar(Router $router)
 {
-    $instructor = new Instructor(); // Instancia del modelo
     $alertas = [];
     $exito = false;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Asignar datos del formulario al modelo
-        $instructor->nombre = $_POST['nombre'] ?? '';
-        $instructor->correo = $_POST['correo'] ?? '';
-        $instructor->rol = $_POST['rol'] ?? '';
-        $instructor->idEvento = $_POST['idEvento'] ?? null; // Si no es obligatorio, puede ser null
+        // Obtener datos del formulario
+        $nombre = $_POST['nombre'] ?? '';
+        $correo = $_POST['correo'] ?? '';
         $pass = $_POST['pass'] ?? '';
-        $confirm_pass = $_POST['confirm_pass'] ?? '';
+        $rol = $_POST['rol'] ?? 'instructor';
 
-        // Validar los campos requeridos
-        if (empty($instructor->nombre)) {
-            $alertas[] = 'El nombre es obligatorio.';
-        }
-
-        if (empty($instructor->correo) || !filter_var($instructor->correo, FILTER_VALIDATE_EMAIL)) {
-            $alertas[] = 'El correo es obligatorio y debe ser válido.';
-        }
-
-        if (empty($instructor->rol) || !in_array($instructor->rol, ['Instructor', 'Instructor con privilegios', 'Organizador'])) {
-            $alertas[] = 'Debes seleccionar un rol válido.';
-        }
-
-        if (empty($pass) || strlen($pass) < 6) {
-            $alertas[] = 'La contraseña es obligatoria y debe tener al menos 6 caracteres.';
-        }
-
-        if ($pass !== $confirm_pass) {
-            $alertas[] = 'Las contraseñas no coinciden.';
-        }
-
-        // Verificar si el correo ya está registrado
-        $query = "SELECT * FROM Instructor WHERE correo = '{$instructor->correo}' LIMIT 1";
-        $usuarios_existentes = Instructor::consultarSQL($query);
-
-        if (!empty($usuarios_existentes)) {
-            $alertas[] = 'El correo ya está registrado.';
-        }
-
-        // Si no hay errores, guardar en la base de datos
-        if (empty($alertas)) {
+        // Validar que los campos obligatorios estén presentes
+        if (!$nombre || !$correo || !$pass || !$rol) {
+            $alertas[] = 'Todos los campos son obligatorios.';
+        } else {
             // Encriptar la contraseña
-            $instructor->pass = password_hash($pass, PASSWORD_BCRYPT);
+            $passHash = password_hash($pass, PASSWORD_BCRYPT);
 
-            // Guardar el instructor en la base de datos
-            $resultado = $instructor->guardar();
+            // Construir la consulta SQL
+            $query = "INSERT INTO Instructor (nombre, correo, pass, rol, idEvento) 
+                      VALUES ('$nombre', '$correo', '$passHash', '$rol', NULL)";
 
-            if ($resultado) {
-                $exito = true;
-                $alertas[] = 'Registro exitoso. Ahora puedes iniciar sesión.';
+            // Conectar a la base de datos usando la clase global \mysqli
+            $db = new \mysqli('clubdeleones.etheria.com.mx', 'u899317091_admin', 'Escom2002', 'u899317091_clubleones');
+
+            if ($db->connect_error) {
+                $alertas[] = 'Error al conectar a la base de datos.';
             } else {
-                $alertas[] = 'Hubo un error al registrar el usuario. Inténtalo más tarde.';
+                // Ejecutar la consulta
+                if ($db->query($query)) {
+                    $exito = true;
+                    header('Location: /login'); // Redirigir en caso de éxito
+                    exit;
+                } else {
+                    $alertas[] = 'Hubo un error al registrar el instructor: ' . $db->error;
+                }
+                $db->close(); // Cerrar la conexión
             }
         }
     }
 
-    // Renderizar la vista con alertas
+    // Renderizar la vista de registro con alertas
     $router->render('auth/registro', [
         'alertas' => $alertas,
         'exito' => $exito
@@ -105,39 +98,47 @@ class AuthController
 }
 
 
+
+
+
+
     
 
-    public static function login(Router $router)
-    {
-        $instructor = new Instructor();
-        $alertas = [];
-        $usuario = null;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $correo = $_POST['correo'] ?? '';
-            $pass = $_POST['pass'] ?? '';
+    
 
-            if (!$correo || !$pass) {
-                $alertas[] = 'Correo y contraseña son obligatorios.';
+public static function login(Router $router)
+{
+    $alertas = [];
+    $usuario = null;
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $correo = $_POST['correo'] ?? '';
+        $pass = $_POST['pass'] ?? '';
+
+        if (!$correo || !$pass) {
+            $alertas[] = 'Correo y contraseña son obligatorios.';
+        } else {
+            // Consulta para obtener el usuario con el correo proporcionado
+            $query = "SELECT * FROM Instructor WHERE correo = '$correo' LIMIT 1";
+            $db = new \mysqli('clubdeleones.etheria.com.mx', 'u899317091_admin', 'Escom2002', 'u899317091_clubleones');
+
+            if ($db->connect_error) {
+                $alertas[] = 'Error al conectar a la base de datos.';
             } else {
-                // Depuración: Verificar la consulta SQL y el resultado
-                $query = "SELECT * FROM Instructor WHERE correo = '$correo' LIMIT 1";
-                $usuarios = Instructor::consultarSQL($query);
+                $resultado = $db->query($query);
 
-                var_dump($usuarios); // Mostrar lo que devuelve la consulta
+                if ($resultado->num_rows > 0) {
+                    $usuario = $resultado->fetch_assoc(); // Obtener el primer resultado (usuario)
 
-                if (count($usuarios) > 0) {
-                    $usuario = $usuarios[0];
-
-                    var_dump($usuario); // Verifica los datos del usuario
-
-                    if ($pass === $usuario->pass) {
+                    // Verificar si la contraseña proporcionada coincide con la almacenada (encriptada)
+                    if (password_verify($pass, $usuario['pass'])) {
                         session_start();
-                        $_SESSION['usuario_id'] = $usuario->id;
-                        $_SESSION['usuario_nombre'] = $usuario->nombre;
-                        $_SESSION['usuario_rol'] = $usuario->rol; // Asegúrate de tener el campo `rol` en la base de datos
+                        $_SESSION['usuario_id'] = $usuario['id'];
+                        $_SESSION['usuario_nombre'] = $usuario['nombre'];
+                        $_SESSION['usuario_rol'] = $usuario['rol'];
 
-                        header('Location: /menu');
+                        header('Location: /menu'); // Redirigir en caso de éxito
                         exit;
                     } else {
                         $alertas[] = 'Contraseña incorrecta.';
@@ -145,13 +146,17 @@ class AuthController
                 } else {
                     $alertas[] = 'El correo no está registrado.';
                 }
+
+                $db->close(); // Cerrar la conexión
             }
         }
-
-        $router->render('auth/login', [
-            'alertas' => $alertas
-        ]);
     }
+
+    $router->render('auth/login', [
+        'alertas' => $alertas
+    ]);
+}
+
 
     public static function menuPrincipal(Router $router)
     {

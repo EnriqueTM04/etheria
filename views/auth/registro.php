@@ -116,57 +116,66 @@
         }
     </style>
 
-    <div class="row g-0">
-        <div class="col-lg-6 d-none d-lg-block" id="columnaImagen">
-            <img src="https://images2.alphacoders.com/132/thumb-1920-1327482.png" alt="Imagen de registro" class="img-fluid">
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            <form class="form-group p-4" action="/auth/registro" method="POST">
-                <h2 class="text-center mb-4">Registro de Usuario</h2>
+<div class="row g-0">
+    <div class="col-lg-6 d-none d-lg-block" id="columnaImagen">
+        <img src="https://images2.alphacoders.com/132/thumb-1920-1327482.png" alt="Imagen de registro" class="img-fluid">
+    </div>
+    <div class="col-sm-12 col-lg-6">
+        <form class="form-group p-4" action="/registro/registrar" method="POST">
+            <h2 class="text-center mb-4">Registro de Usuario</h2>
 
-                <!-- Nombre -->
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre completo" required>
+            <!-- Mensajes de alerta -->
+            <?php if (!empty($alertas)): ?>
+                <div class="alert alert-danger">
+                    <?php foreach ($alertas as $alerta): ?>
+                        <p><?= htmlspecialchars($alerta) ?></p>
+                    <?php endforeach; ?>
                 </div>
+            <?php endif; ?>
 
-                <!-- Rol -->
-                <div class="mb-3">
-                    <label for="rol" class="form-label">Rol</label>
-                    <select class="form-select" id="rol" name="rol" required>
-                        <option value="" selected disabled>Selecciona un rol</option>
-                        <option value="Instructor">Instructor</option>
-                        <option value="Instructor con privilegios">Instructor con privilegios</option>
-                        <option value="Organizador">Organizador</option>
-                    </select>
-                </div>
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre completo" required>
+            </div>
 
-                <!-- Correo -->
-                <div class="mb-3">
-                    <label for="correo" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" required>
-                </div>
+            <!-- Rol -->
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <select class="form-select" id="rol" name="rol" required>
+                    <option value="" selected disabled>Selecciona un rol</option>
+                    <option value="Instructor">Instructor</option>
+                    <option value="Instructor con privilegios">Instructor con privilegios</option>
+                    <option value="Organizador">Organizador</option>
+                </select>
+            </div>
 
-                <!-- Contraseña -->
-                <div class="mb-3">
-                    <label for="pass" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="pass" name="pass" placeholder="Crea una contraseña segura" required>
-                </div>
+            <!-- Correo -->
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" required>
+            </div>
 
-                <!-- Confirmar contraseña -->
-                <div class="mb-3">
-                    <label for="confirm_pass" class="form-label">Confirma tu contraseña</label>
-                    <input type="password" class="form-control" id="confirm_pass" name="confirm_pass" placeholder="Confirma tu contraseña" required>
-                </div>
+            <!-- Contraseña -->
+            <div class="mb-3">
+                <label for="pass" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="pass" name="pass" placeholder="Crea una contraseña segura" required>
+            </div>
 
-                <!-- Botón de registro -->
-                <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+            <!-- Confirmar contraseña -->
+            <div class="mb-3">
+                <label for="confirm_pass" class="form-label">Confirma tu contraseña</label>
+                <input type="password" class="form-control" id="confirm_pass" name="confirm_pass" placeholder="Confirma tu contraseña" required>
+            </div>
 
-                <!-- Enlace al inicio de sesión -->
-                <p class="text-center mt-3">
-                    ¿Ya tienes una cuenta? <a href="/login" class="text-decoration-underline">Inicia sesión aquí</a>.
-                </p>
-            </form>
-        </div>
+            <!-- Botón de registro -->
+            <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+
+            <!-- Enlace al inicio de sesión -->
+            <p class="text-center mt-3">
+                ¿Ya tienes una cuenta? <a href="/login" class="text-decoration-underline">Inicia sesión aquí</a>.
+            </p>
+        </form>
     </div>
 </div>
+

@@ -3,7 +3,7 @@
 namespace Model;
 
 class Instructor extends ActiveRecord {
-    protected static $tabla = 'instructor';  // Nombre de la tabla en la base de datos (en minúsculas)
+    protected static $tabla = 'Instructor';  // Nombre de la tabla en la base de datos (en minúsculas)
     protected static $columnasDB = ['id', 'nombre', 'correo', 'rol', 'idEvento', 'pass'];  // Añadí el campo 'correo' y 'pass'
 
     private $id;

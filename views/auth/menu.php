@@ -46,6 +46,17 @@ $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin 
                     </div>
                 </div>
             </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Asignar instructores a eventos</h5>
+                        <p class="card-text">Asigna instructores previamente registrados a eventos especificos</p>
+                        <a href="/sesiones" class="btn btn-warning">Acceder</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
