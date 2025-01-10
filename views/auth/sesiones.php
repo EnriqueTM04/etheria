@@ -1,11 +1,30 @@
+<?php
+// Inicia la sesión si no se ha iniciado ya
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['usuario_nombre']) || empty($_SESSION['usuario_nombre'])) {
+    header("Location: /login");
+    exit();
+}
+
+// Obtener datos del usuario desde la sesión
+$nombre_usuario = $_SESSION['usuario_nombre'];
+$rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin rol';
+
+// Otras configuraciones globales pueden ir aquí
+?>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Lista de Sesiones</h1>
+    <p class="text-center">Rol del usuario: <?php echo htmlspecialchars($rol_actual); ?></p>
     <div class="table-responsive">
       <table class="table table-dark table-striped">
         <thead>
           <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
+            <th>Fecha y hora</th>
             <th>Descripción</th>
             <th>Metros Recorridos</th>
             <th>Evento</th>
@@ -16,8 +35,7 @@
           <!-- Ejemplo de filas -->
            <?php foreach($sesiones as $sesion): ?>
             <tr>
-                <td><?php echo $sesion->fecha ?? ''; ?></td>
-                <td><?php echo $sesion->hora ?? ''; ?></td>
+                <td><?php echo htmlspecialchars($sesion->fechaHora); ?></td>
                 <td><?php echo $sesion->descripcion ?? ''; ?></td>
                 <td><?php echo $sesion->metrosRecorridos ?? ''; ?></td>
                 <td><?php echo $eventosPorId[$sesion->idEvento] ?? 'Evento no encontrado'; ?></td>
