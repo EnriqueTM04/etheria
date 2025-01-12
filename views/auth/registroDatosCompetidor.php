@@ -1,9 +1,3 @@
-<?php foreach ($alertas as $alerta): ?>
-    <div class="alert alert-danger">
-        <?php echo $alerta; ?>
-    </div>
-<?php endforeach; ?>
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">Registro de Distancia y Tiempo</h1>
     <form action="/competidor/registro-datos" method="POST">
