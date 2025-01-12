@@ -73,7 +73,12 @@ class EventoController {
                 $competidor = Competidor::find($id);
     
                 if ($competidor) {
-                    $competidor->eliminar();
+                    try {
+                        $competidor->eliminar();
+                    } catch (\Throwable $th) {
+                        header('Location: /competidores');
+                    }
+                    
                 }
             }
         }
