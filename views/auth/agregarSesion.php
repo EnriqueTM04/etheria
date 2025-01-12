@@ -15,15 +15,15 @@ if (!isset($_SESSION['usuario_nombre']) || empty($_SESSION['usuario_nombre'])) {
 }
 
 // Obtener datos del usuario desde la sesión
-$nombre_usuario = $_SESSION['usuario_nombre'];
+$nombre_usuario = isset($_SESSION['usuario_nombre']) ? $_SESSION['usuario_nombre'] : 'Usuario desconocido';
 $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin rol';
 
-// Otras configuraciones globales pueden ir aquí
+// Asegurarse de que las variables están inicializadas para evitar errores
+$eventos = isset($eventos) ? $eventos : [];
 ?>
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Agregar Sesión</h1>
-    <h1>Rol: <?php echo htmlspecialchars($rol_actual); ?> </h1>
     <?php if (!empty($alertas)): ?>
         <div class="alert alert-danger">
             <?php foreach ($alertas as $alerta): ?>
@@ -52,6 +52,36 @@ $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin 
                 <?php endforeach; ?>
             </select>
         </div>
+
+        <!-- Checkbox para "Registrar sesión fuera del calendario" -->
+        <?php if ($rol_actual === 'Instructor con privilegios' || $rol_actual === 'Organizador'): ?>
+            <div class="form-group mt-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="fueraCalendario" name="fueraCalendario" onchange="toggleMotivo()">
+                    <label class="form-check-label" for="fueraCalendario">
+                        Registrar sesión fuera del calendario
+                    </label>
+                </div>
+            </div>
+            <!-- Campo para motivo -->
+            <div class="form-group mt-3" id="motivoGroup" style="display: none;">
+                <label for="motivo">Motivo</label>
+                <textarea class="form-control" id="motivo" name="motivo" rows="5" placeholder="Introduce el motivo"></textarea>
+            </div>
+        <?php endif; ?>
+
         <button type="submit" class="btn btn-primary mt-3">Agregar Sesión</button>
     </form>
 </div>
+
+<script>
+    function toggleMotivo() {
+        const motivoGroup = document.getElementById('motivoGroup');
+        const checkbox = document.getElementById('fueraCalendario');
+        if (checkbox.checked) {
+            motivoGroup.style.display = 'block';
+        } else {
+            motivoGroup.style.display = 'none';
+        }
+    }
+</script>
