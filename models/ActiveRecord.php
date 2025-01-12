@@ -148,7 +148,21 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query); // Esto ya devuelve un array de resultados
         return $resultado; // Devuelve todos los elementos sin usar array_shift
     }
-    
+
+     // Busqueda where con multoples condiciones
+    public static function whereArray($array = []) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE ";
+        foreach($array as $key => $value) {
+            if($key == array_key_last($array)) {
+                $query .= " $key = '$value'";
+            } else {
+                $query .= " $key = '$value' AND ";
+            }
+        }
+
+        $resultado = self::consultarSQL($query);
+        return array_shift( $resultado ) ;
+    }
 
     // crea un nuevo registro
     public function crear() {

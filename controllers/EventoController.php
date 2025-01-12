@@ -7,6 +7,8 @@ use MVC\Router;
 use Model\Evento;
 use Model\Sesion;
 use DateTime;
+use Model\Competidor_Sesion;
+use Model\Evento_Competidor;
 use Model\Instructor;
 
 class EventoController {
@@ -85,18 +87,71 @@ class EventoController {
         $id = filter_var($id, FILTER_VALIDATE_INT);
 
         $competidor = Competidor::find($id);
+        $eventosParticipados = Evento_Competidor::where('idCompetidor', $id);
+        $sesiones = Competidor_Sesion::where('idCompetidor', $id);
+
+        foreach ($eventosParticipados as $evento) {
+            $eventos[] = Evento::find($evento->idEvento);
+        }
 
         if (!$competidor) {
             header('Location: /competidores');
         }
 
         $router->render('auth/competidorHistorial', [
-            'competidor' => $competidor
+            'competidor' => $competidor,
+            'eventos' => $eventos,
+            'sesiones' => $sesiones
         ]);
     }
 
     public static function registroDatosCompetidor(Router $router) {
-        $router->render('auth/registroDatosCompetidor');
+        $datosCompetidor = new Competidor_Sesion();
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $competidorBuscado = Competidor_Sesion::whereArray([
+                'idCompetidor' => $_POST['idCompetidor'],
+                'idSesion' => $_POST['idSesion']
+            ]);
+
+            if ($competidorBuscado) {
+                $datosCompetidor = $competidorBuscado;
+                $datosCompetidor->setId($competidorBuscado->getId());
+            }
+            
+            $datosCompetidor->sincronizar($_POST);
+
+            $alertas = $datosCompetidor->validar();
+
+            if(!$datosCompetidor->getDistancia()) {
+                $alertas[] = 'La distancia es obligatoria.';
+            }
+
+            if (empty($alertas)) {
+                $datosCompetidor->guardar();
+                header('Location: /sesiones');
+            }
+        }
+        
+        $idSesion = $_GET['sesion'] ?? null;
+        $idEvento = $_GET['evento'] ?? null;
+        $distancia = Sesion::find($idSesion)->metrosRecorridos;
+
+        $competidores = Evento_Competidor::where('idEvento', $idEvento);
+
+        $listaCompetidores = [];
+        foreach ($competidores as $competidor) {
+            $listaCompetidores[] = Competidor::find($competidor->idCompetidor);
+        }
+
+        $router->render('auth/registroDatosCompetidor', [
+            $alertas => $alertas ?? [],
+            'idSesion' => $idSesion,
+            'idEvento' => $idEvento,
+            'listaCompetidores' => $listaCompetidores,
+            'distancia' => $distancia
+        ]);
     }
 
 

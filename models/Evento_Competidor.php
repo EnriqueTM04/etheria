@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class EventoCompetidor extends ActiveRecord {
+class Evento_Competidor extends ActiveRecord {
     protected static $tabla = 'Evento_Competidor';
     protected static $columnasDB = ['id', 'idEvento', 'idCompetidor'];
 

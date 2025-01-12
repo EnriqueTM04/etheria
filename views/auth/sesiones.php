@@ -29,6 +29,7 @@ $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin 
             <th>Metros Recorridos</th>
             <th>Evento</th>
             <th>Acciones</th>
+            <th>Datos competidor</th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +47,8 @@ $rol_actual = isset($_SESSION['usuario_rol']) ? $_SESSION['usuario_rol'] : 'Sin 
                   <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                 </form>
                 </td>
+                <td> <a href="/competidor/registro-datos?sesion=<?php echo $sesion->id; ?>&evento=<?php echo $sesion->idEvento; ?>" class="btn btn-primary btn-sm">Registrar Datos</a></td>
+
             </tr>
           <?php endforeach; ?>
         </tbody>
