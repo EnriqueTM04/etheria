@@ -122,7 +122,7 @@ $mostrar_generar_reportes = $es_organizador || $rol_actual === 'Instructor' || $
                             <i class="bi bi-file-earmark-text-fill display-4 text-danger"></i>
                             <h5 class="card-title mt-3">Generar reporte</h5>
                             <p class="card-text">Generar el reporte de un competidor</p>
-                            <a href="/subir-reporte" class="btn btn-warning">Acceder</a>
+                            <a href="/mostrar-reporte" class="btn btn-warning">Acceder</a>
                         </div>
                     </div>
                 </div>
