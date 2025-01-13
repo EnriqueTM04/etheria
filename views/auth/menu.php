@@ -89,14 +89,14 @@ $mostrar_generar_reportes = $es_organizador || $rol_actual === 'Instructor' || $
                 </div>
             <?php endif; ?>
 
-            <?php if ($mostrar_convocatorias): ?>
+            <?php if ($mostrar_generar_reportes): ?>
                 <div class="col-md-6 col-lg-4">
                     <div class="card custom-card shadow-lg">
                         <div class="card-body text-center">
-                            <i class="bi bi-file-earmark-pdf-fill display-4 text-danger"></i>
-                            <h5 class="card-title mt-3">Convocatorias</h5>
-                            <p class="card-text">Sube convocatorias para el público en formato .PDF</p>
-                            <a href="/convocatorias" class="btn btn-warning">Acceder</a>
+                            <i class="bi bi-file-earmark-text-fill display-4 text-danger"></i>
+                            <h5 class="card-title mt-3">Generar reporte</h5>
+                            <p class="card-text">Generar el reporte de un competidor</p>
+                            <a href="/mostrar-reporte" class="btn btn-warning">Acceder</a>
                         </div>
                     </div>
                 </div>
@@ -115,18 +115,7 @@ $mostrar_generar_reportes = $es_organizador || $rol_actual === 'Instructor' || $
                 </div>
             <?php endif; ?>
 
-            <?php if ($mostrar_generar_reportes): ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card custom-card shadow-lg">
-                        <div class="card-body text-center">
-                            <i class="bi bi-file-earmark-text-fill display-4 text-danger"></i>
-                            <h5 class="card-title mt-3">Generar reporte</h5>
-                            <p class="card-text">Generar el reporte de un competidor</p>
-                            <a href="/mostrar-reporte" class="btn btn-warning">Acceder</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
+            
         </div>
     </div>
 </div>
